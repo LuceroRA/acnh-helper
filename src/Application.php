@@ -26,13 +26,19 @@ use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Application setup class.
  *
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -94,7 +100,10 @@ class Application extends BaseApplication
             // https://book.cakephp.org/4/en/controllers/middleware.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
                 'httponly' => true,
-            ]));
+            ]))
+            
+            // Handle authentication and sessions using Auth plugin
+            ->add(new AuthenticationMiddleware($this));
 
         return $middlewareQueue;
     }
@@ -117,5 +126,36 @@ class Application extends BaseApplication
         $this->addPlugin('Migrations');
 
         // Load more plugins here
+    }
+
+    /**
+     * Configuration for Authentication service.
+     */
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface {
+        $authenticationService = new AuthenticationService([
+            'unauthenticatedRedirect' => '/users/login',
+            'queryParam' => 'redirect',
+        ]);
+
+        // Tell Auth service which fields to check from our User entity.
+        $authenticationService->loadIdentifier('Authentication.Password', [
+            'fields' => [    
+                'username' => 'email',
+                'password' => 'password',
+            ]
+        ]);
+
+        // Use session Authenticator first
+        $authenticationService->loadAuthenticator('Authentication.Session');
+        // If user data is not in session, then use form Authenticator
+        $authenticationService->loadAuthenticator('Authentication.Form', [
+            'fields' => [
+                'username' => 'email',
+                'password' => 'password',
+            ],
+            'loginUrl' => '/users/login',
+        ]);
+
+        return $authenticationService;
     }
 }
