@@ -32,13 +32,22 @@ use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Psr\Http\Message\ServerRequestInterface;
 
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceInterface;
+use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Middleware\AuthorizationMiddleware;
+use Authorization\Policy\OrmResolver;
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Application setup class.
  *
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface
+class Application extends BaseApplication 
+    implements AuthenticationServiceProviderInterface,
+    AuthorizationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -103,7 +112,10 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ]))
             
             // Handle authentication and sessions using Auth plugin
-            ->add(new AuthenticationMiddleware($this));
+            ->add(new AuthenticationMiddleware($this))
+
+            // Handle authorization using authorization plugin
+            ->add(new AuthorizationMiddleware($this));
 
         return $middlewareQueue;
     }
@@ -159,5 +171,12 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         ]);
 
         return $authenticationService;
+    }
+
+    // Use authorization service for requests
+    public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface {
+        $resolver = new OrmResolver();
+
+        return new AuthorizationService($resolver);
     }
 }

@@ -47,6 +47,8 @@ class AppController extends Controller
         // Check Authentication on every request to the app.
         $this->loadComponent('Authentication.Authentication');
 
+        $this->loadComponent('Authorization.Authorization');
+
         /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
