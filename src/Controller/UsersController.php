@@ -12,6 +12,18 @@ namespace App\Controller;
 class UsersController extends AppController
 {
     /**
+     * Method called before any actions directed to UsersController
+     * 
+     * @param $event
+     */
+    public function beforeFilter(\Cake\Event\EventInterface $event){
+        parent::beforeFilter($event);
+        
+        // Configure login and add actions to not require user to be logged in
+        $this->Authentication->addUnauthenticatedActions(['login', 'add']);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
@@ -101,5 +113,18 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Login method
+     */
+    public function login(){
+        $this->request->allowMethod(['get', 'post']);
+        $result = $this->Authentication->getResult();
+
+        // Flash error if authentication failed.
+        if($this->request->is('post') && !$result->isValid()){
+            $this->Flash->error(__('Invalid username or password.'));
+        }
     }
 }
