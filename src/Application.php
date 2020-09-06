@@ -126,6 +126,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Migrations');
 
         // Load more plugins here
+
+        $this->addPlugin('Authorization');
     }
 
     /**
