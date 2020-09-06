@@ -30,6 +30,7 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $this->Authorization->skipAuthorization();
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
@@ -47,6 +48,7 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => ['Articles'],
         ]);
+        $this->Authorization->authorize($user);
 
         $this->set(compact('user'));
     }
@@ -85,6 +87,8 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
+        $this->Authorization->authorize($user);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
@@ -108,6 +112,8 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
+        $this->Authorization->authorize($user);
+
         if ($this->Users->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));
         } else {
