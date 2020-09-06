@@ -43,11 +43,26 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        
+        // Check Authentication on every request to the app.
+        $this->loadComponent('Authentication.Authentication');
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+    }
+
+    /** 
+     * Method called before a controller action.
+     * 
+     * @param $event
+     */
+    public function beforeFilter(\Cake\Event\EventInterface $event) {
+        parent::beforeFilter($event);
+        
+        // Configure 'index' and 'view' actions to not require user login
+        $this->Authentication->addUnauthenticatedActions(['index', 'view']);
     }
 }
