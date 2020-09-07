@@ -47,9 +47,12 @@ class PricesController extends AppController
      */
     public function add()
     {
+        $this->Authorization->skipAuthorization();
         $price = $this->Prices->newEmptyEntity();
         if ($this->request->is('post')) {
             $price = $this->Prices->patchEntity($price, $this->request->getData());
+            $price->user_id = $this->request->getAttribute('identity')->getIdentifier();
+
             if ($this->Prices->save($price)) {
                 $this->Flash->success(__('The price has been saved.'));
 
@@ -74,7 +77,9 @@ class PricesController extends AppController
             'contain' => ['Users'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $price = $this->Prices->patchEntity($price, $this->request->getData());
+            $price = $this->Prices->patchEntity($price, $this->request->getData(), [
+                'accessibleFields' => ['user_id' => false]
+            ]);
             if ($this->Prices->save($price)) {
                 $this->Flash->success(__('The price has been saved.'));
 

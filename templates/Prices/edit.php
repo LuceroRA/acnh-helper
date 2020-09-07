@@ -22,7 +22,6 @@
             <fieldset>
                 <legend><?= __('Edit Price') ?></legend>
                 <?php
-                    echo $this->Form->control('user_id');
                     echo $this->Form->control('monday_price');
                     echo $this->Form->control('tuesday_price');
                     echo $this->Form->control('wednesday_price');
@@ -30,7 +29,6 @@
                     echo $this->Form->control('friday_price');
                     echo $this->Form->control('saturday_price');
                     echo $this->Form->control('sunday_price');
-                    echo $this->Form->control('users._ids', ['options' => $users]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>
