@@ -33,6 +33,7 @@ class PricesController extends AppController
      */
     public function view($id = null)
     {
+        $this->Authorization->skipAuthorization();
         $price = $this->Prices->get($id, [
             'contain' => ['Users'],
         ]);
@@ -47,8 +48,9 @@ class PricesController extends AppController
      */
     public function add()
     {
-        $this->Authorization->skipAuthorization();
         $price = $this->Prices->newEmptyEntity();
+        $this->Authorization->authorize($price);
+
         if ($this->request->is('post')) {
             $price = $this->Prices->patchEntity($price, $this->request->getData());
             $price->user_id = $this->request->getAttribute('identity')->getIdentifier();
@@ -76,6 +78,8 @@ class PricesController extends AppController
         $price = $this->Prices->get($id, [
             'contain' => ['Users'],
         ]);
+        $this->Authorization->authorize($price);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $price = $this->Prices->patchEntity($price, $this->request->getData(), [
                 'accessibleFields' => ['user_id' => false]
@@ -102,6 +106,8 @@ class PricesController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $price = $this->Prices->get($id);
+        $this->Authorization->authorize($price);
+        
         if ($this->Prices->delete($price)) {
             $this->Flash->success(__('The price has been deleted.'));
         } else {
