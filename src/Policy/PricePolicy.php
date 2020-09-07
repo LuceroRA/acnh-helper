@@ -70,7 +70,7 @@ class PricePolicy
      * @param App\Model\Entity\Price $price The resource being accessed
      * @return bool
      */
-    protected function isOwner(IdentityInterface $user, User $price) {
+    protected function isOwner(IdentityInterface $user, Price $price) {
         return $user->getIdentifier() === $price->user_id;
     }
 }
