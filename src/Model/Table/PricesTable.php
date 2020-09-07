@@ -48,11 +48,6 @@ class PricesTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsToMany('Users', [
-            'foreignKey' => 'price_id',
-            'targetForeignKey' => 'user_id',
-            'joinTable' => 'prices_users',
-        ]);
     }
 
     /**

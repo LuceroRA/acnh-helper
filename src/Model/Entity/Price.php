@@ -18,7 +18,6 @@ use Cake\ORM\Entity;
  * @property int|null $saturday_price
  * @property int|null $sunday_price
  *
- * @property \App\Model\Entity\User[] $users
  */
 class Price extends Entity
 {
@@ -40,6 +39,5 @@ class Price extends Entity
         'friday_price' => true,
         'saturday_price' => true,
         'sunday_price' => true,
-        'users' => true,
     ];
 }

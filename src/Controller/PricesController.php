@@ -34,9 +34,7 @@ class PricesController extends AppController
     public function view($id = null)
     {
         $this->Authorization->skipAuthorization();
-        $price = $this->Prices->get($id, [
-            'contain' => ['Users'],
-        ]);
+        $price = $this->Prices->get($id);
 
         $this->set(compact('price'));
     }
@@ -75,9 +73,7 @@ class PricesController extends AppController
      */
     public function edit($id = null)
     {
-        $price = $this->Prices->get($id, [
-            'contain' => ['Users'],
-        ]);
+        $price = $this->Prices->get($id);
         $this->Authorization->authorize($price);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -107,7 +103,7 @@ class PricesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $price = $this->Prices->get($id);
         $this->Authorization->authorize($price);
-        
+
         if ($this->Prices->delete($price)) {
             $this->Flash->success(__('The price has been deleted.'));
         } else {
