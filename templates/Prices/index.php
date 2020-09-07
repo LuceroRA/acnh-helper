@@ -11,7 +11,6 @@
         <table>
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('user_id') ?></th>
                     <th><?= $this->Paginator->sort('monday_price') ?></th>
                     <th><?= $this->Paginator->sort('tuesday_price') ?></th>
@@ -26,8 +25,7 @@
             <tbody>
                 <?php foreach ($prices as $price): ?>
                 <tr>
-                    <td><?= $this->Number->format($price->id) ?></td>
-                    <td><?= $this->Number->format($price->user_id) ?></td>
+                    <td><?= h($price->user->email) ?></td>
                     <td><?= $this->Number->format($price->monday_price) ?></td>
                     <td><?= $this->Number->format($price->tuesday_price) ?></td>
                     <td><?= $this->Number->format($price->wednesday_price) ?></td>

@@ -19,7 +19,11 @@ class PricesController extends AppController
     public function index()
     {
         $this->Authorization->skipAuthorization();
-        $prices = $this->paginate($this->Prices);
+        $prices = $this->paginate($this->Prices, [
+            'Prices' => [
+                'contain' => ['Users'],
+            ],
+        ]);
 
         $this->set(compact('prices'));
     }
