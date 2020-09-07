@@ -47,7 +47,7 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('Articles', [
+        $this->hasOne('Price', [
             'foreignKey' => 'user_id',
         ]);
     }

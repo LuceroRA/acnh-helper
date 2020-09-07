@@ -15,7 +15,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
- * @property \App\Model\Entity\Article[] $articles
  */
 class User extends Entity
 {
@@ -33,7 +32,6 @@ class User extends Entity
         'password' => true,
         'created' => true,
         'modified' => true,
-        'articles' => true,
     ];
 
     /**
