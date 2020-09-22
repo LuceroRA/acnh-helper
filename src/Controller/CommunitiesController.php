@@ -18,6 +18,7 @@ class CommunitiesController extends AppController
      */
     public function index()
     {
+        $this->Authorization->skipAuthorization();
         $communities = $this->paginate($this->Communities);
 
         $this->set(compact('communities'));
@@ -32,6 +33,7 @@ class CommunitiesController extends AppController
      */
     public function view($id = null)
     {
+        $this->Authorization->skipAuthorization();
         $community = $this->Communities->get($id, [
             'contain' => ['Users'],
         ]);
@@ -46,6 +48,7 @@ class CommunitiesController extends AppController
      */
     public function add()
     {
+        $this->Authorization->skipAuthorization();
         $community = $this->Communities->newEmptyEntity();
         if ($this->request->is('post')) {
             $community = $this->Communities->patchEntity($community, $this->request->getData());
@@ -69,6 +72,7 @@ class CommunitiesController extends AppController
      */
     public function edit($id = null)
     {
+        $this->Authorization->skipAuthorization();
         $community = $this->Communities->get($id, [
             'contain' => ['Users'],
         ]);
@@ -94,6 +98,9 @@ class CommunitiesController extends AppController
      */
     public function delete($id = null)
     {
+        $user = $this->Users->get($id);
+        $this->Authorization->authorize($user);
+        
         $this->request->allowMethod(['post', 'delete']);
         $community = $this->Communities->get($id);
         if ($this->Communities->delete($community)) {
