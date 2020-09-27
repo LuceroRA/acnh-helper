@@ -50,6 +50,8 @@ class UsersTable extends Table
         $this->hasOne('Price', [
             'foreignKey' => 'user_id',
         ]);
+
+        $this->belongsToMany('Communities');
     }
 
     /**

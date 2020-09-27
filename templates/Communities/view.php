@@ -12,6 +12,8 @@
             <?= $this->Form->postLink(__('Delete Community'), ['action' => 'delete', $community->id], ['confirm' => __('Are you sure you want to delete # {0}?', $community->id), 'class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('List Communities'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('New Community'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Form->postLink(__('Join Community'), ['action' => 'join', $community->id], ['class' => 'side-nav-item']) ?>
+            <?= $this->Form->postLink(__('Leave Community'), ['action' => 'leave', $community->id], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
     <div class="column-responsive column-80">

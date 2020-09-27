@@ -98,11 +98,10 @@ class CommunitiesController extends AppController
      */
     public function delete($id = null)
     {
-        $user = $this->Users->get($id);
-        $this->Authorization->authorize($user);
-        
         $this->request->allowMethod(['post', 'delete']);
         $community = $this->Communities->get($id);
+        $this->Authorization->authorize($community);
+        
         if ($this->Communities->delete($community)) {
             $this->Flash->success(__('The community has been deleted.'));
         } else {
@@ -110,5 +109,63 @@ class CommunitiesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    
+    /**
+     * Join community method
+     * 
+     * @param string|null $id Community id.
+     * @return \Cake\Http\Response|null|void Flashes result and reloads page
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function join($id = null)
+    {
+        $this->request->allowMethod(['post']);
+        $this->Authorization->skipAuthorization();
+        $community = $this->Communities->get($id, [
+            'contain' => ['Users'],
+        ]);
+
+        
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            //Retrieve user entity
+            $userId = $this->Authentication->getIdentity()->id;
+            $user = $this->Communities->Users->get($userId);
+
+            //Add the current user to the list of users in this community
+            $this->Communities->Users->link($community, [$user]);
+
+            $this->Flash->success(__('You successfully joined this community.'));
+            return $this->redirect(['action' => 'view', $community->id]);
+        }
+    }
+    
+    /**
+     * Leave community method
+     * 
+     * @param string|null $id Community id.
+     * @return \Cake\Http\Response|null|void Flashes result and reloads page
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function leave($id = null)
+    {
+        $this->request->allowMethod(['post']);
+        $this->Authorization->skipAuthorization();
+        $community = $this->Communities->get($id, [
+            'contain' => ['Users'],
+        ]);
+
+        
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            //Retrieve user entity
+            $userId = $this->Authentication->getIdentity()->id;
+            $user = $this->Communities->Users->get($userId);
+
+            //Add the current user to the list of users in this community
+            $this->Communities->Users->unlink($community, [$user]);
+
+            $this->Flash->success(__('You successfully left this community.'));
+            return $this->redirect(['action' => 'view', $community->id]);
+        }
     }
 }
