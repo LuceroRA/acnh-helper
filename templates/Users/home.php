@@ -10,6 +10,7 @@
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('List Communities'), ['controller' => 'communities', 'action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('Edit My Prices'), ['controller' => 'prices', 'action' => 'edit', $user->price->id], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('Logout'), ['action' => 'logout'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
     <div class="column-responsive column-80">
