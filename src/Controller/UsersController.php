@@ -168,7 +168,7 @@ class UsersController extends AppController
         //Retrieve user entity
         $userId = $this->Authentication->getIdentity()->id;
         $user = $this->Users->get($userId, [
-            'contain' => ['Communities' => ['Users' => 'Prices']]
+            'contain' => ['Communities' => ['Users' => 'Prices'], 'Prices']
         ]);
 
         $this->set(compact('user'));
