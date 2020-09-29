@@ -38,30 +38,30 @@
                 </tr>
             </table>
             <div class="related">
-                <h4><?= __('Related Users') ?></h4>
+                <h4><?= __('Member Prices') ?></h4>
                 <?php if (!empty($community->users)) : ?>
                 <div class="table-responsive">
                     <table>
                         <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Email') ?></th>
-                            <th><?= __('Password') ?></th>
-                            <th><?= __('Created') ?></th>
-                            <th><?= __('Modified') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
+                            <th><?= __('User') ?></th>
+                            <th><?= __('Monday') ?></th>
+                            <th><?= __('Tuesday') ?></th>
+                            <th><?= __('Wednesday') ?></th>
+                            <th><?= __('Thursday') ?></th>
+                            <th><?= __('Friday') ?></th>
+                            <th><?= __('Saturday') ?></th>
+                            <th><?= __('Sunday') ?></th>
                         </tr>
-                        <?php foreach ($community->users as $users) : ?>
+                        <?php foreach ($community->users as $user): ?>
                         <tr>
-                            <td><?= h($users->id) ?></td>
-                            <td><?= h($users->email) ?></td>
-                            <td><?= h($users->password) ?></td>
-                            <td><?= h($users->created) ?></td>
-                            <td><?= h($users->modified) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Users', 'action' => 'view', $users->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Users', 'action' => 'edit', $users->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Users', 'action' => 'delete', $users->id], ['confirm' => __('Are you sure you want to delete # {0}?', $users->id)]) ?>
-                            </td>
+                            <td><?= h($user->id) ?></td>
+                            <td><?= $this->Number->format($user->price->monday_price) ?></td>
+                            <td><?= $this->Number->format($user->price->tuesday_price) ?></td>
+                            <td><?= $this->Number->format($user->price->wednesday_price) ?></td>
+                            <td><?= $this->Number->format($user->price->thursday_price) ?></td>
+                            <td><?= $this->Number->format($user->price->friday_price) ?></td>
+                            <td><?= $this->Number->format($user->price->saturday_price) ?></td>
+                            <td><?= $this->Number->format($user->price->sunday_price) ?></td>
                         </tr>
                         <?php endforeach; ?>
                     </table>

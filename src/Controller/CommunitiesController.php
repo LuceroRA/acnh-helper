@@ -35,7 +35,7 @@ class CommunitiesController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $community = $this->Communities->get($id, [
-            'contain' => ['Users'],
+            'contain' => ['Users' => 'Prices'],
         ]);
 
         $this->set(compact('community'));
