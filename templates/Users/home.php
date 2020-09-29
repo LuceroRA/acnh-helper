@@ -18,7 +18,6 @@
             <div class="table-responsive">
                 <table>
                     <tr>
-                        <th><?= __('User') ?></th>
                         <th><?= __('Monday') ?></th>
                         <th><?= __('Tuesday') ?></th>
                         <th><?= __('Wednesday') ?></th>
@@ -28,7 +27,6 @@
                         <th><?= __('Sunday') ?></th>
                     </tr>
                     <tr>
-                        <td><?= h($user->id) ?></td>
                         <td><?= $this->Number->format($user->price->monday_price) ?></td>
                         <td><?= $this->Number->format($user->price->tuesday_price) ?></td>
                         <td><?= $this->Number->format($user->price->wednesday_price) ?></td>
