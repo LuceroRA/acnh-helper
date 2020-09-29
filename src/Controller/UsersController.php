@@ -128,6 +128,11 @@ class UsersController extends AppController
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
 
+        // Redirect to home on successful authentication
+        if($result->isValid()) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'home']);
+        }
+
         // Flash error if authentication failed.
         if($this->request->is('post') && !$result->isValid()){
             $this->Flash->error(__('Invalid username or password.'));
