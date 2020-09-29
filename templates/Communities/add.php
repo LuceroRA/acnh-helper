@@ -19,7 +19,6 @@
                 <?php
                     echo $this->Form->control('title');
                     echo $this->Form->control('public');
-                    echo $this->Form->control('users._ids', ['options' => $users]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

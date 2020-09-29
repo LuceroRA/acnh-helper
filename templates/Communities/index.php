@@ -11,7 +11,6 @@
         <table>
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('title') ?></th>
                     <th><?= $this->Paginator->sort('public') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
@@ -21,9 +20,8 @@
             <tbody>
                 <?php foreach ($communities as $community): ?>
                 <tr>
-                    <td><?= $this->Number->format($community->id) ?></td>
                     <td><?= h($community->title) ?></td>
-                    <td><?= h($community->public) ?></td>
+                    <td><?= h($community->public)?'Yes':'No' ?></td>
                     <td><?= h($community->created) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $community->id]) ?>
