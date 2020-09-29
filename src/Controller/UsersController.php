@@ -148,4 +148,24 @@ class UsersController extends AppController
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
     }
+
+    /**
+     * Home page method
+     * 
+     * @param string|null $id User id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function home($id = null)
+    {
+        $this->Authorization->skipAuthorization();
+
+        //Retrieve user entity
+        $userId = $this->Authentication->getIdentity()->id;
+        $user = $this->Users->get($userId, [
+            'contain' => ['Communities' => ['Users' => 'Prices']]
+        ]);
+
+        $this->set(compact('user'));
+    }
 }
