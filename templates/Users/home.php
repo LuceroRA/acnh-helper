@@ -48,24 +48,12 @@
                         <table>
                             <tr>
                                 <th><?= __('User') ?></th>
-                                <th><?= __('Monday') ?></th>
-                                <th><?= __('Tuesday') ?></th>
-                                <th><?= __('Wednesday') ?></th>
-                                <th><?= __('Thursday') ?></th>
-                                <th><?= __('Friday') ?></th>
-                                <th><?= __('Saturday') ?></th>
-                                <th><?= __('Sunday') ?></th>
+                                <th><?= __('Today\'s Price') ?></th>
                             </tr>
                             <?php foreach ($community->users as $member): ?>
                             <tr>
                                 <td><?= h($member->id) ?></td>
-                                <td><?= $this->Number->format($member->price->monday_price) ?></td>
-                                <td><?= $this->Number->format($member->price->tuesday_price) ?></td>
-                                <td><?= $this->Number->format($member->price->wednesday_price) ?></td>
-                                <td><?= $this->Number->format($member->price->thursday_price) ?></td>
-                                <td><?= $this->Number->format($member->price->friday_price) ?></td>
-                                <td><?= $this->Number->format($member->price->saturday_price) ?></td>
-                                <td><?= $this->Number->format($member->price->sunday_price) ?></td>
+                                <td><?= $this->Number->format($member->price->today_price) ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </table>
