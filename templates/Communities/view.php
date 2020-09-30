@@ -54,7 +54,7 @@
                         </tr>
                         <?php foreach ($community->users as $user): ?>
                         <tr>
-                            <td><?= h($user->id) ?></td>
+                            <td><?= h($user->username) ?></td>
                             <td><?= $this->Number->format($user->price->monday_price) ?></td>
                             <td><?= $this->Number->format($user->price->tuesday_price) ?></td>
                             <td><?= $this->Number->format($user->price->wednesday_price) ?></td>

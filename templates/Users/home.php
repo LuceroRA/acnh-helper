@@ -15,7 +15,7 @@
     </aside>
     <div class="column-responsive column-80">
         <div class="prices view content">
-            <h3><?= h($user->id) ?><?= __('\'s Prices') ?></h3>
+            <h3><?= h($user->username) ?><?= __('\'s Prices') ?></h3>
             <div class="table-responsive">
                 <table>
                     <tr>
@@ -52,7 +52,7 @@
                             </tr>
                             <?php foreach ($community->users as $member): ?>
                             <tr>
-                                <td><?= h($member->id) ?></td>
+                                <td><?= h($member->username) ?></td>
                                 <td><?= $this->Number->format($member->price->today_price) ?></td>
                             </tr>
                             <?php endforeach; ?>
