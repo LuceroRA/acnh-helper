@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  * User Entity
  *
  * @property int $id
+ * @property string $username
  * @property string $email
  * @property string $password
  * @property \Cake\I18n\FrozenTime|null $created
@@ -28,6 +29,7 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
+        'username' => true,
         'email' => true,
         'password' => true,
         'created' => true,
