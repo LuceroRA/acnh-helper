@@ -128,6 +128,11 @@ class UsersController extends AppController
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
 
+        // Redirect to home on successful authentication
+        if($result->isValid()) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'home']);
+        }
+
         // Flash error if authentication failed.
         if($this->request->is('post') && !$result->isValid()){
             $this->Flash->error(__('Invalid username or password.'));
@@ -147,5 +152,25 @@ class UsersController extends AppController
             $this->Authentication->logout();
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
+    }
+
+    /**
+     * Home page method
+     * 
+     * @param string|null $id User id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function home($id = null)
+    {
+        $this->Authorization->skipAuthorization();
+
+        //Retrieve user entity
+        $userId = $this->Authentication->getIdentity()->id;
+        $user = $this->Users->get($userId, [
+            'contain' => ['Communities' => ['Users' => 'Prices'], 'Prices']
+        ]);
+
+        $this->set(compact('user'));
     }
 }

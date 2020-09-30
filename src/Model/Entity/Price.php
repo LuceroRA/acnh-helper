@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Chronos\Chronos;
 
 /**
  * Price Entity
@@ -39,5 +40,39 @@ class Price extends Entity
         'friday_price' => true,
         'saturday_price' => true,
         'sunday_price' => true,
+        'today_price' => true,
     ];
+
+    protected function _getTodayPrice()
+    {
+        // Retrieve the current day of the week
+        // This is formatted as an integer from 1 to 7
+        $today = Chronos::today()->dayOfWeek;
+
+        switch($today)
+        {
+            case 1:
+                return $this->_fields['monday_price'];
+            break;
+            case 2:
+                return $this->_fields['tuesday_price'];
+            break;
+            case 3:
+                return $this->_fields['wednesday_price'];
+            break;
+            case 4:
+                return $this->_fields['thursday_price'];
+            break;
+            case 5:
+                return $this->_fields['friday_price'];
+            break;
+            case 6:
+                return $this->_fields['saturday_price'];
+            break;
+            case 7:
+                return $this->_fields['sunday_price'];
+            break;
+
+        }
+    }
 }
